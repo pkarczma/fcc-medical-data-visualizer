@@ -17,20 +17,11 @@ df['gluc'] = (df['gluc'] > 1).astype(int)
 # Draw Categorical Plot
 def draw_cat_plot():
     # Create DataFrame for cat plot using `pd.melt` using just the values from 'cholesterol', 'gluc', 'smoke', 'alco', 'active', and 'overweight'.
-    df_cat = pd.melt(df, value_vars=['active', 'alco', 'cholesterol', 'gluc', 'overweight', 'smoke'], var_name='variable')
-
-
-    # Group and reformat the data to split it by 'cardio'. Show the counts of each feature. You will have to rename one of the collumns for the catplot to work correctly.
-    df_cat_cardio = pd.melt(df[df['cardio'] == 1], value_vars=['active', 'alco', 'cholesterol', 'gluc', 'overweight', 'smoke'], var_name='variable')
-    df_cat_nocardio = pd.melt(df[df['cardio'] == 0], value_vars=['active', 'alco', 'cholesterol', 'gluc', 'overweight', 'smoke'], var_name='variable')
+    df_cat = pd.melt(df, id_vars=['cardio'], value_vars=['active', 'alco', 'cholesterol', 'gluc', 'overweight', 'smoke'], var_name='variable')
 
     # Draw the catplot with 'sns.catplot()'
-    fig, axs = plt.subplots(1,2)
-    sns.countplot(x='variable', hue='value', data=df_cat_cardio, ax=axs[0])
-    sns.countplot(x='variable', hue='value', data=df_cat_nocardio, ax=axs[1])
-    plt.close(2)
-    plt.close(3)
-    fig.tight_layout()
+    fig = sns.catplot(x='variable', hue='value', col='cardio', kind='count', data=df_cat)
+    fig.set_axis_labels('variable', 'total')
     # Do not modify the next two lines
     fig.savefig('catplot.png')
     return fig

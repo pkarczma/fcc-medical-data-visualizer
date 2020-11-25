@@ -34,12 +34,10 @@ def draw_heat_map():
     df_heat = df[heat_mask]
 
     # Calculate the correlation matrix
-    corr = None
+    corr = df_heat.corr()
 
     # Generate a mask for the upper triangle
-    mask = None
-
-
+    mask = np.triu(np.ones_like(corr, dtype=bool))
 
     # Set up the matplotlib figure
     fig, ax = None

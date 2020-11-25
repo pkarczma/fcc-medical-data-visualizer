@@ -37,7 +37,7 @@ def draw_heat_map():
     corr = df_heat.corr()
 
     # Generate a mask for the upper triangle
-    mask = np.triu(np.ones_like(corr, dtype=bool))
+    mask = np.triu(corr)
 
     # Set up the matplotlib figure
     fig, ax = plt.subplots(figsize=(11, 9))
